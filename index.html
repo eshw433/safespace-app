@@ -185,8 +185,14 @@ case 'sos': el.innerHTML=`<div class="page active">
   }
 }
 
-function startChat(topic){tg.sendData(JSON.stringify({action:'chat',topic}));tg.close()}
-function sendSOS(){tg.sendData(JSON.stringify({action:'sos'}));tg.close()}
+function startChat(topic){
+  try{tg.openTelegramLink(`https://t.me/${tg.initDataUnsafe?.bot?.username||'SafeSpace_help_bot'}?start=chat`)}
+  catch(e){tg.close()}
+}
+function sendSOS(){
+  try{tg.openTelegramLink(`https://t.me/${tg.initDataUnsafe?.bot?.username||'SafeSpace_help_bot'}?start=sos`)}
+  catch(e){tg.close()}
+}
 
 // Breathing
 function startBreath(type){
@@ -206,9 +212,8 @@ function saveMood(emoji,label){
   week.push({emoji,date:new Date().toLocaleDateString()});
   if(week.length>7)week.shift();
   SS('moodWeek',week);
-  document.getElementById('moodResult').innerHTML=`<div class="result">${emoji}<br>${label}<br><span style="color:var(--muted);font-size:11px">Сохранено!</span></div>`;
+  document.getElementById('moodResult').innerHTML=`<div class="result">${emoji}<br>${label}<br><span style="color:var(--muted);font-size:11px">Сохранено! 💙</span></div>`;
   renderMoodWeek();
-  tg.sendData(JSON.stringify({action:'mood',mood:label}));
 }
 function renderMoodWeek(){
   const el=document.getElementById('moodWeek');if(!el)return;

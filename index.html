@@ -131,10 +131,16 @@ case 'home': el.innerHTML=`<div class="page active">
 </div></div>`;break;
 
 case 'chat': el.innerHTML=`<div class="page active">
-<div class="card"><h3>💬 Написать помощнику</h3><p>Выбери тему и напиши — живой человек ответит анонимно.</p></div>
+<div class="card"><h3>💬 Написать помощнику</h3><p>Выбери тему, напиши сообщение — помощник ответит в боте.</p></div>
 <div class="grid-2">
-${['😰 Тревога','😔 Одиночество','👊 Буллинг','🏠 Семья','💔 Отношения','🌑 Депрессия','🩸 Самоповреждение','📚 Школа','🍽️ РПП','🌈 Идентичность','😴 Сон','🎮 Зависимость','🕊️ Горе','👨‍👩‍👧 Родители','❓ Другое','🆘 Кризис'].map(c=>`<div class="grid-btn" onclick="startChat('${c}')">${c}</div>`).join('')}
-</div></div>`;break;
+${['😰 Тревога','😔 Одиночество','👊 Буллинг','🏠 Семья','💔 Отношения','🌑 Депрессия','🩸 Самоповреждение','📚 Школа','🍽️ РПП','🌈 Идентичность','😴 Сон','🎮 Зависимость','🕊️ Горе','👨‍👩‍👧 Родители','❓ Другое','🆘 Кризис'].map(c=>`<div class="grid-btn" onclick="pickTopic('${c}')">${c}</div>`).join('')}
+</div>
+<div id="chatForm" style="display:none">
+<textarea id="chatMsg" placeholder="Напиши что беспокоит..."></textarea>
+<button class="btn btn-primary" onclick="sendMsg()">📨 Отправить помощнику</button>
+<p style="font-size:10px;color:var(--muted);text-align:center;margin-top:6px">После отправки приложение закроется и ответ придёт в бот</p>
+</div>
+</div>`;break;
 
 case 'breathe': el.innerHTML=`<div class="page active">
 <div class="card"><h3>🫁 Дыхательные техники</h3><p>Выбери технику и следи за кругом.</p></div>
@@ -185,14 +191,23 @@ case 'sos': el.innerHTML=`<div class="page active">
   }
 }
 
+let selectedTopic='';
+function pickTopic(topic){
+  selectedTopic=topic;
+  document.getElementById('chatForm').style.display='block';
+  document.getElementById('chatMsg').placeholder=`Тема: ${topic}\nНапиши что беспокоит...`;
+  document.getElementById('chatMsg').focus();
+}
+function sendMsg(){
+  const text=document.getElementById('chatMsg').value.trim();
+  if(!text){alert('Напиши сообщение');return}
+  tg.sendData(JSON.stringify({action:'chat',topic:selectedTopic,text:text}));
+}
 function startChat(topic){
   try{tg.openTelegramLink(`https://t.me/${tg.initDataUnsafe?.bot?.username||'SafeSpace_help_bot'}?start=chat`)}
   catch(e){tg.close()}
 }
-function sendSOS(){
-  try{tg.openTelegramLink(`https://t.me/${tg.initDataUnsafe?.bot?.username||'SafeSpace_help_bot'}?start=sos`)}
-  catch(e){tg.close()}
-}
+function sendSOS(){tg.sendData(JSON.stringify({action:'sos'}))}
 
 // Breathing
 function startBreath(type){

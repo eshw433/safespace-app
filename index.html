@@ -204,7 +204,7 @@ function sendMsg(){
   tg.sendData(JSON.stringify({action:'chat',topic:selectedTopic,text:text}));
 }
 function startChat(topic){
-  try{tg.openTelegramLink(`https://t.me/${tg.initDataUnsafe?.bot?.username||'SafeSpace_help_bot'}?start=chat`)}
+  try{tg.openTelegramLink('https://t.me/teens_help_ru_bot?start=chat')}
   catch(e){tg.close()}
 }
 function sendSOS(){tg.sendData(JSON.stringify({action:'sos'}))}

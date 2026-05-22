@@ -138,7 +138,7 @@ ${['😰 Тревога','😔 Одиночество','👊 Буллинг','�
 <div id="chatForm" style="display:none">
 <textarea id="chatMsg" placeholder="Напиши что беспокоит..."></textarea>
 <button class="btn btn-primary" onclick="sendMsg()">📨 Отправить помощнику</button>
-<p style="font-size:10px;color:var(--muted);text-align:center;margin-top:6px">После отправки приложение закроется и ответ придёт в бот</p>
+<p style="font-size:10px;color:var(--muted);text-align:center;margin-top:6px">Откроется бот — вставь сообщение туда</p>
 </div>
 </div>`;break;
 
@@ -201,13 +201,12 @@ function pickTopic(topic){
 function sendMsg(){
   const text=document.getElementById('chatMsg').value.trim();
   if(!text){alert('Напиши сообщение');return}
-  tg.sendData(JSON.stringify({action:'chat',topic:selectedTopic,text:text}));
+  // Copy to clipboard and open bot
+  navigator.clipboard.writeText(text).catch(()=>{});
+  tg.openTelegramLink('https://t.me/teens_help_ru_bot?start=chat');
+  tg.close();
 }
-function startChat(topic){
-  try{tg.openTelegramLink('https://t.me/teens_help_ru_bot?start=chat')}
-  catch(e){tg.close()}
-}
-function sendSOS(){tg.sendData(JSON.stringify({action:'sos'}))}
+function sendSOS(){tg.openTelegramLink('https://t.me/teens_help_ru_bot?start=sos');tg.close()}
 
 // Breathing
 function startBreath(type){

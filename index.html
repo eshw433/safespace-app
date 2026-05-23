@@ -7,345 +7,208 @@
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#0a0a14;--card:#151525;--accent:#8b5cf6;--accent2:#a78bfa;--text:#e2e8f0;--muted:#64748b;--green:#4ade80;--red:#f87171;--yellow:#fbbf24;--radius:14px}
-body{font-family:-apple-system,system-ui,sans-serif;background:var(--bg);color:var(--text);padding:0;min-height:100vh;overflow-x:hidden}
-.header{background:linear-gradient(135deg,#1a1040,#2d1b69);padding:20px 16px 16px;text-align:center}
-.header h1{font-size:22px;color:#fff}
-.header p{font-size:11px;color:var(--accent2);margin-top:4px}
-.nav{display:flex;gap:4px;padding:8px 12px;overflow-x:auto;background:var(--card);border-bottom:1px solid #1e1e35;position:sticky;top:0;z-index:10}
-.nav-btn{padding:7px 12px;border-radius:20px;background:transparent;border:1px solid #2a2a4a;color:var(--muted);font-size:11px;white-space:nowrap;cursor:pointer;transition:.15s}
-.nav-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
-.page{display:none;padding:16px;animation:fadeIn .2s}
-.page.active{display:block}
-@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-.card{background:var(--card);border:1px solid #1e1e35;border-radius:var(--radius);padding:16px;margin-bottom:12px}
-.card h3{font-size:14px;color:var(--accent);margin-bottom:8px}
-.card p{font-size:12px;line-height:1.7;color:var(--muted)}
-.btn{display:block;width:100%;padding:13px;border-radius:10px;border:none;font-size:13px;font-weight:600;cursor:pointer;margin-bottom:8px;transition:.15s;text-align:center}
-.btn-primary{background:var(--accent);color:#fff}
-.btn-sos{background:var(--red);color:#fff;font-size:15px}
-.btn-outline{background:transparent;border:1px solid var(--accent);color:var(--accent)}
-.btn-green{background:var(--green);color:#000}
-.btn:active{transform:scale(.97)}
-.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
-.grid-btn{padding:14px 8px;border-radius:12px;background:var(--card);border:1px solid #2a2a4a;text-align:center;cursor:pointer;transition:all .2s;font-size:11px;color:var(--text)}
-.grid-btn:active{border-color:var(--accent);background:#8b5cf610;transform:scale(.93)}
-.grid-btn .icon{font-size:22px;display:block;margin-bottom:4px;transition:transform .3s}
-.grid-btn:active .icon{transform:scale(1.3) rotate(10deg)}
-.breathe-box{width:140px;height:140px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#6366f1);margin:20px auto;display:flex;align-items:center;justify-content:center;font-size:14px;color:#fff;font-weight:600}
-.breathe-box.active{animation:breatheAnim 19s infinite}
-@keyframes breatheAnim{0%,100%{transform:scale(.7);opacity:.6}10.5%{transform:scale(1.2);opacity:1}47.4%{transform:scale(1.2);opacity:1}57.9%{transform:scale(.7);opacity:.6}}
-.mood-row{display:flex;gap:8px;justify-content:center;margin:16px 0}
-.mood-item{font-size:32px;padding:10px;border-radius:12px;cursor:pointer;transition:all .2s;border:2px solid transparent}
-.mood-item:active,.mood-item.sel{border-color:var(--accent);transform:scale(1.3) rotate(10deg);background:#8b5cf620}
-.check-item{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid #1e1e35;font-size:12px;cursor:pointer}
-.check-box{width:20px;height:20px;border-radius:6px;border:2px solid var(--muted);flex-shrink:0;transition:.15s;display:flex;align-items:center;justify-content:center}
-.check-item.done .check-box{background:var(--green);border-color:var(--green)}
-.check-item.done .check-box::after{content:'✓';color:#fff;font-size:11px}
-.progress{height:6px;background:#1e1e35;border-radius:3px;margin:10px 0;overflow:hidden}
-.progress .fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--green));border-radius:3px;transition:width .4s}
-.quote-text{font-size:15px;line-height:1.7;text-align:center;padding:16px;font-style:italic}
-.result{text-align:center;padding:20px;font-size:14px;line-height:1.8}
-.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:10px;background:#8b5cf620;color:var(--accent);margin:2px}
-textarea{width:100%;padding:12px;border-radius:10px;border:1px solid #2a2a4a;background:var(--bg);color:var(--text);font-size:13px;resize:none;height:80px;margin-bottom:8px}
+:root{--bg:#080810;--card:#111120;--card2:#1a1a30;--accent:#a78bfa;--accent2:#8b5cf6;--text:#f1f5f9;--muted:#64748b;--green:#4ade80;--red:#f87171;--yellow:#fbbf24;--pink:#f472b6;--blue:#60a5fa;--r:16px}
+body{font-family:-apple-system,system-ui,sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;min-height:100vh}
+.head{background:linear-gradient(160deg,#1a0a3e,#2d1b69,#1a1a4e);padding:24px 16px 18px;text-align:center;position:relative;overflow:hidden}
+.head::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle,#8b5cf610 0%,transparent 50%);animation:auroa 8s linear infinite}
+@keyframes auroa{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+.head h1{font-size:24px;color:#fff;position:relative;z-index:1}
+.head p{font-size:11px;color:var(--accent);position:relative;z-index:1;margin-top:4px}
+.nav{display:flex;gap:3px;padding:6px 8px;overflow-x:auto;background:var(--card);border-bottom:1px solid #1e1e35;position:sticky;top:0;z-index:10;-webkit-overflow-scrolling:touch}
+.nav::-webkit-scrollbar{display:none}
+.nb{padding:6px 11px;border-radius:20px;background:transparent;border:none;color:var(--muted);font-size:10px;white-space:nowrap;cursor:pointer;transition:.2s}
+.nb.on{background:var(--accent2);color:#fff;box-shadow:0 2px 10px #8b5cf640}
+.pg{display:none;padding:16px;animation:pgIn .3s ease}
+.pg.on{display:block}
+@keyframes pgIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.c{background:var(--card);border:1px solid #1f1f3a;border-radius:var(--r);padding:16px;margin-bottom:12px;position:relative;overflow:hidden}
+.c::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--pink),var(--blue))}
+.c h3{font-size:14px;color:var(--accent);margin-bottom:6px}
+.c p{font-size:12px;line-height:1.7;color:var(--muted)}
+.btn{display:block;width:100%;padding:14px;border-radius:12px;border:none;font-size:13px;font-weight:600;cursor:pointer;margin-bottom:8px;transition:all .2s;text-align:center}
+.btn:active{transform:scale(.95)}
+.btn-p{background:linear-gradient(135deg,var(--accent2),#6366f1);color:#fff;box-shadow:0 4px 15px #8b5cf630}
+.btn-s{background:var(--red);color:#fff;box-shadow:0 4px 15px #f8717130}
+.btn-o{background:transparent;border:1px solid var(--accent);color:var(--accent)}
+.btn-g{background:linear-gradient(135deg,#059669,var(--green));color:#000}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:10px}
+.gb{padding:16px 8px;border-radius:14px;background:var(--card2);border:1px solid #2a2a4a;text-align:center;cursor:pointer;transition:all .2s;font-size:10px;color:var(--text)}
+.gb:active{transform:scale(.9);border-color:var(--accent);box-shadow:0 0 15px #8b5cf620}
+.gb .ic{font-size:24px;display:block;margin-bottom:5px;transition:transform .3s}
+.gb:active .ic{transform:scale(1.3) rotate(15deg)}
+.breathe-orb{width:130px;height:130px;border-radius:50%;background:radial-gradient(circle at 30% 30%,var(--accent),#4338ca);margin:20px auto;display:flex;align-items:center;justify-content:center;font-size:13px;color:#fff;font-weight:600;box-shadow:0 0 40px #8b5cf630;transition:transform 4s ease-in-out}
+.breathe-orb.in{transform:scale(1.4);box-shadow:0 0 60px #8b5cf650}
+.breathe-orb.out{transform:scale(.8);box-shadow:0 0 20px #8b5cf620}
+.mood-r{display:flex;gap:6px;justify-content:center;margin:16px 0}
+.mood-i{font-size:34px;padding:10px;border-radius:14px;cursor:pointer;transition:all .25s;border:2px solid transparent;background:var(--card2)}
+.mood-i:active,.mood-i.sel{border-color:var(--accent);transform:scale(1.25) rotate(8deg);background:#8b5cf620;box-shadow:0 0 20px #8b5cf630}
+.chk{display:flex;align-items:center;gap:10px;padding:12px;border-bottom:1px solid #1f1f3a;font-size:12px;cursor:pointer;transition:.15s;border-radius:8px}
+.chk:active{background:#8b5cf610}
+.chk-b{width:22px;height:22px;border-radius:7px;border:2px solid var(--muted);flex-shrink:0;transition:.2s;display:flex;align-items:center;justify-content:center}
+.chk.dn .chk-b{background:var(--green);border-color:var(--green);transform:scale(1.1)}
+.chk.dn .chk-b::after{content:'✓';color:#fff;font-size:12px}
+.bar{height:8px;background:#1f1f3a;border-radius:4px;margin:10px 0;overflow:hidden}
+.bar .f{height:100%;background:linear-gradient(90deg,var(--accent2),var(--green));border-radius:4px;transition:width .5s ease}
+.qt{font-size:16px;line-height:1.8;text-align:center;padding:20px 10px;font-style:italic;color:var(--text)}
+.gr{text-align:center;padding:20px;min-height:140px;display:flex;align-items:center;justify-content:center;flex-direction:column}
+.gr .big{font-size:56px;margin-bottom:8px}
+.gr .lbl{font-size:14px;font-weight:600;color:var(--text)}
+.gr .sub{font-size:11px;color:var(--muted);margin-top:4px}
+textarea{width:100%;padding:12px;border-radius:12px;border:1px solid #2a2a4a;background:var(--card2);color:var(--text);font-size:13px;resize:none;height:90px;margin-bottom:8px}
 .spin{animation:spin 1s ease-out}
 @keyframes spin{0%{transform:rotateY(0)}100%{transform:rotateY(720deg)}}
-.bounce{animation:bounce .6s ease}
-@keyframes bounce{0%{transform:scale(0)}50%{transform:scale(1.3)}100%{transform:scale(1)}}
-.shake{animation:shake .5s ease}
-@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-10px)}40%{transform:translateX(10px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
-.float{animation:float 2s ease-in-out infinite}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-.glow{animation:glow 1.5s ease-in-out infinite alternate}
-@keyframes glow{from{text-shadow:0 0 5px var(--accent)}to{text-shadow:0 0 20px var(--accent),0 0 40px var(--accent)}}
-.slot-spin{animation:slotSpin .8s cubic-bezier(.17,.67,.83,.67)}
-@keyframes slotSpin{0%{transform:translateY(-200px);opacity:0}60%{transform:translateY(10px)}100%{transform:translateY(0);opacity:1}}
-.game-result{text-align:center;padding:24px;font-size:48px;min-height:120px;display:flex;align-items:center;justify-content:center;flex-direction:column}
-.game-result .label{font-size:14px;margin-top:8px;color:var(--text)}
-.game-result .sub{font-size:11px;color:var(--muted);margin-top:4px}
-.coin{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#fbbf24,#f59e0b);display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto;box-shadow:0 4px 15px #fbbf2440}
-.ball{width:90px;height:90px;border-radius:50%;background:linear-gradient(135deg,#1a1a2e,#000);display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;margin:0 auto;box-shadow:0 4px 20px #00000080;border:3px solid #333}
-.wheel{width:100px;height:100px;border-radius:50%;background:conic-gradient(var(--accent),var(--green),var(--yellow),var(--red),var(--accent));display:flex;align-items:center;justify-content:center;margin:0 auto;box-shadow:0 4px 20px #8b5cf640}
-.wheel.spinning{animation:wheelSpin 2s cubic-bezier(.17,.67,.12,.99)}
-@keyframes wheelSpin{0%{transform:rotate(0)}100%{transform:rotate(1440deg)}}
-.num-box{width:80px;height:80px;border-radius:16px;background:linear-gradient(135deg,var(--accent),#6366f1);display:flex;align-items:center;justify-content:center;font-size:28px;color:#fff;font-weight:700;margin:0 auto;box-shadow:0 4px 20px #8b5cf640}
+.bounce{animation:bounce .5s cubic-bezier(.68,-.55,.27,1.55)}
+@keyframes bounce{0%{transform:scale(0)}60%{transform:scale(1.2)}100%{transform:scale(1)}}
+.shake{animation:shake .6s ease}
+@keyframes shake{0%,100%{transform:rotate(0)}25%{transform:rotate(-15deg)}75%{transform:rotate(15deg)}}
+.glow{animation:glow 2s ease-in-out infinite alternate}
+@keyframes glow{from{text-shadow:0 0 5px var(--accent)}to{text-shadow:0 0 25px var(--accent),0 0 50px #6366f1}}
+.float{animation:float 3s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.wheel{width:100px;height:100px;border-radius:50%;background:conic-gradient(var(--accent),var(--green),var(--yellow),var(--pink),var(--blue),var(--accent));margin:0 auto;box-shadow:0 0 30px #8b5cf630}
+.wheel.go{animation:wspin 2.5s cubic-bezier(.2,.8,.3,1)}
+@keyframes wspin{to{transform:rotate(1800deg)}}
+.coin-3d{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#fcd34d,#f59e0b);margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 4px 20px #f59e0b40,inset 0 -3px 6px #b4540040}
+.ball-3d{width:90px;height:90px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#333,#000);margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;box-shadow:0 6px 25px #00000080,inset 0 2px 4px #ffffff20;border:2px solid #222}
+.num-3d{width:80px;height:80px;border-radius:18px;background:linear-gradient(135deg,var(--accent2),#4f46e5);margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:30px;color:#fff;font-weight:800;box-shadow:0 6px 25px #8b5cf640}
+.confetti{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:999}
+.confetti i{position:absolute;top:-10px;width:8px;height:8px;border-radius:2px;animation:fall 3s linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg);opacity:0}}
+.badge-row{display:flex;flex-wrap:wrap;gap:4px;margin:8px 0}
+.badge{padding:4px 10px;border-radius:20px;font-size:10px;background:#8b5cf615;color:var(--accent);border:1px solid #8b5cf630}
 </style>
 </head>
 <body>
-<div class="header"><h1>💙 SafeSpace</h1><p>Твоё безопасное пространство</p></div>
+<div class="head"><h1>💙 SafeSpace</h1><p>Безопасное пространство для тебя</p></div>
 <div class="nav" id="nav"></div>
 <div id="pages"></div>
 <script>
 const tg=window.Telegram.WebApp;tg.ready();tg.expand();
 
-
-const pages=[
-{id:'home',icon:'🏠',label:'Главная'},
-{id:'chat',icon:'💬',label:'Чат'},
-{id:'breathe',icon:'🫁',label:'Дыхание'},
-{id:'mood',icon:'😊',label:'Настроение'},
-{id:'care',icon:'🧴',label:'Забота'},
-{id:'games',icon:'🎮',label:'Игры'},
-{id:'coping',icon:'🧰',label:'Копинг'},
-{id:'diary',icon:'📔',label:'Дневник'},
-{id:'facts',icon:'💡',label:'Факты'},
-{id:'affirm',icon:'✨',label:'Аффирмации'},
-{id:'sleep',icon:'😴',label:'Сон'},
-{id:'kind',icon:'💛',label:'Доброта'},
-{id:'stories',icon:'📖',label:'Истории'},
-{id:'achieve',icon:'🏆',label:'Бейджи'},
-{id:'sos',icon:'🆘',label:'SOS'},
-];
-
-// Build nav
-document.getElementById('nav').innerHTML=pages.map((p,i)=>`<div class="nav-btn${i===0?' active':''}" onclick="go('${p.id}')">${p.icon} ${p.label}</div>`).join('');
-
-// Data
+const P=[
+{id:'home',i:'🏠',l:'Главная'},{id:'chat',i:'💬',l:'Чат'},{id:'breathe',i:'🫁',l:'Дыхание'},
+{id:'mood',i:'😊',l:'Настроение'},{id:'care',i:'🧴',l:'Забота'},{id:'games',i:'🎮',l:'Игры'},
+{id:'cope',i:'🧰',l:'Копинг'},{id:'diary',i:'📔',l:'Дневник'},{id:'facts',i:'💡',l:'Факты'},
+{id:'affirm',i:'✨',l:'Сила'},{id:'music',i:'🎵',l:'Музыка'},{id:'sleep',i:'😴',l:'Сон'},
+{id:'kind',i:'💛',l:'Доброта'},{id:'stories',i:'📖',l:'Истории'},{id:'achieve',i:'🏆',l:'Прогресс'},
+{id:'sos',i:'🆘',l:'SOS'}];
+document.getElementById('nav').innerHTML=P.map((p,i)=>`<button class="nb${i?'':' on'}" onclick="go('${p.id}')">${p.i}</button>`).join('');
 const LS=k=>JSON.parse(localStorage.getItem(k)||'null');
 const SS=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+function rand(a){return a[Math.floor(Math.random()*a.length)]}
+function haptic(t){try{tg.HapticFeedback.impactOccurred(t||'medium')}catch(e){}}
+function confetti(){const c=document.createElement('div');c.className='confetti';document.body.appendChild(c);const cols=['#a78bfa','#4ade80','#fbbf24','#f87171','#60a5fa','#f472b6'];for(let i=0;i<40;i++){const s=document.createElement('i');s.style.cssText=`left:${Math.random()*100}%;background:${rand(cols)};animation-delay:${Math.random()*1.5}s;width:${4+Math.random()*8}px;height:${4+Math.random()*8}px;border-radius:${Math.random()>.5?'50%':'2px'}`;c.appendChild(s)}setTimeout(()=>c.remove(),4000)}
 
-const quotes=["Ты сильнее чем думаешь 💪","Просить помощь — смелость 🤍","Мир лучше с тобой ⭐","Боль временна 🌟","Дыши. Ты здесь 🌿","Каждый день — новый шанс 🌄","Ты заслуживаешь любви 💙","Маленькие шаги — тоже движение 🐾","Твои чувства важны 🌸","Ты не один(а) 🤝","Отдыхать — тоже прогресс 🌙","Ты уникален(а) 💎","После дождя — радуга 🌈","Звёзды светят ярче в темноте ✨","Твоя история ещё не написана 💫"];
-const facts=["🧠 Мозг подростка перестраивается до 25 лет","💙 87% получивших помощь говорят что стало легче","🎵 Музыка снижает кортизол на 25%","🌙 Подросткам нужно 8-10 часов сна","🤝 Один друг снижает риск депрессии на 40%","💪 30 мин активности = антидепрессант","🌈 Плакать полезно — выходят гормоны стресса","📱 Перерыв от соцсетей улучшает самооценку","🐾 Животные снижают тревогу","✨ 3 благодарности в день меняют мозг за 21 день","🌍 1 млрд людей с ментальными проблемами — не стыдно","🧘 5 мин дыхания активируют парасимпатику","🦋 Нейропластичность работает в любом возрасте","💗 Уязвимость — суперсила","🌱 Ты растёшь даже когда не замечаешь"];
-const affirmations=["Я достоин(а) любви 💙","Мои чувства важны 🌟","Я справляюсь 💪","Я расту каждый день 🌱","Я достаточно 🤍","Я имею право на отдых 🌙","Моя уникальность — сила ✨","Я выбираю себя 🦋","Тяжёлые дни не вечны 🌈","Я заслуживаю хорошего 💎","Мои границы — нормально 🛡️","Я больше чем ошибки 🌸","Просить помощь — сила 🤝","Я на своём пути 🐾","Сегодня я добр(а) к себе 💝"];
-const sleepTips=["🌙 Нет экрана за 1 час до сна","🛏️ Ложись в одно время","🧊 Прохладная комната 18-20°C","📵 Телефон на авиарежим","🫁 Техника 4-7-8 перед сном","📝 Запиши тревоги на бумагу","🚫 Кофе не позже 14:00","🌿 Ромашковый чай помогает","🏃 Активность днём = сон ночью","📖 Книга вместо скроллинга"];
-const kindness=["💌 Напиши кому-то «Рад что ты есть»","🤗 Обними кого-то","📱 Напиши старому другу","😊 Улыбнись 3 незнакомцам","📝 Оставь добрую записку","🎵 Поделись песней","💬 Скажи «спасибо»","🌸 Подари цветок","📣 Похвали кого-то","🍪 Поделись едой","🗑️ Убери чужой мусор","🤝 Помоги кому-то"];
-const copingTech=[
-{e:'🧊',t:'Лёд в руках',d:'Сожми кубик льда. Холод переключает мозг с боли.'},
-{e:'✏️',t:'Рисование',d:'Нарисуй эмоцию. Линии, цвета, формы.'},
-{e:'🏃',t:'Движение',d:'20 прыжков, 10 приседаний, потряси руками.'},
-{e:'🎵',t:'Музыка',d:'Громкое если злость, тихое если тревога.'},
-{e:'📝',t:'Письмо себе',d:'Напиши письмо себе из будущего.'},
-{e:'🌳',t:'Природа',d:'Выйди на 5 мин. Посмотри на небо.'},
-{e:'🤗',t:'Обнять себя',d:'Скрести руки, ладони на плечи, дыши.'},
-{e:'🧠',t:'Переключение',d:'Назови 5 красных предметов вокруг.'},
-];
-const storyList=["Мне было 14, я думал что никому не нужен. Написал сюда. Помощник просто выслушал. Стало легче.","Я боялась рассказать маме про буллинг. Здесь мне помогли найти слова. Теперь всё ок.","Панические атаки каждый день. Научили дышать 4-7-8. Реально работает.","Думал что я один такой. Оказалось — нет. И это уже помогло.","Не спала неделю от тревоги. Помощник посоветовал технику. Уснула в ту же ночь."];
+const quotes=["Ты сильнее чем думаешь 💪","Просить помощь — смелость 🤍","Мир лучше с тобой ⭐","Боль временна 🌟","Дыши. Ты здесь 🌿","Каждый день — шанс 🌄","Ты заслуживаешь любви 💙","Маленькие шаги — тоже путь 🐾","Твои чувства важны 🌸","Ты не один(а) 🤝","Отдых — тоже прогресс 🌙","Ты уникален(а) 💎","После дождя — радуга 🌈","Звёзды ярче в темноте ✨","Твоя история впереди 💫"];
+const facts=["🧠 Мозг перестраивается до 25 лет — хаос нормален","💙 87% получивших помощь стало легче","🎵 Музыка снижает стресс на 25%","🌙 Подросткам нужно 8-10ч сна","🤝 1 друг снижает риск депрессии на 40%","💪 30 мин движения = антидепрессант","🌈 Плакать полезно — выходят гормоны стресса","📱 Перерыв от соцсетей = +15% самооценка","🐾 Животные снижают тревогу","✨ 3 благодарности/день меняют мозг за 21 день","🧘 5 мин дыхания = спокойствие","🦋 Мозг восстанавливается в любом возрасте","💗 Уязвимость — суперсила","🌱 Рост незаметен но реален","🌍 1 млрд людей с ментальными проблемами — не стыдно"];
+const affirm=["Я достоин(а) любви 💙","Мои чувства важны 🌟","Я справляюсь 💪","Я расту 🌱","Я достаточно 🤍","Я имею право на отдых 🌙","Моя уникальность — сила ✨","Я выбираю себя 🦋","Тяжёлые дни не вечны 🌈","Я заслуживаю лучшего 💎","Мои границы — ок 🛡️","Я больше чем ошибки 🌸","Просить помощь — сила 🤝","Я на своём пути 🐾","Я добр(а) к себе 💝"];
+const sleepT=["🌙 Нет экрана за 1ч до сна","🛏️ Ложись в одно время","🧊 Комната 18-20°C","📵 Телефон на авиарежим","🫁 4-7-8 перед сном","📝 Запиши тревоги на бумагу","🚫 Кофе не позже 14:00","🌿 Ромашковый чай","🏃 Активность днём","📖 Книга вместо скроллинга"];
+const kindI=["💌 Напиши «Рад что ты есть»","🤗 Обними кого-то","📱 Напиши старому другу","😊 Улыбнись 3 людям","📝 Добрая записка","🎵 Поделись песней","💬 Скажи спасибо","🌸 Подари цветок","📣 Похвали кого-то","🍪 Поделись едой","🤝 Помоги кому-то","🗑️ Убери чужой мусор"];
+const cope=[{e:'🧊',t:'Лёд',d:'Сожми кубик льда — холод переключает мозг'},{e:'✏️',t:'Рисуй',d:'Нарисуй эмоцию — линии, цвета, формы'},{e:'🏃',t:'Двигайся',d:'20 прыжков, потряси руками 30 сек'},{e:'🎵',t:'Музыка',d:'Громко если злость, тихо если тревога'},{e:'📝',t:'Письмо',d:'Напиши письмо себе из будущего'},{e:'🌳',t:'Природа',d:'Выйди на 5 мин, посмотри на небо'},{e:'🤗',t:'Обними',d:'Скрести руки на груди, дыши 30 сек'},{e:'🧠',t:'Переключи',d:'Назови 5 красных предметов вокруг'}];
+const stories=["Мне было 14, думал никому не нужен. Написал сюда — стало легче.","Боялась рассказать маме про буллинг. Здесь помогли найти слова.","Панические атаки каждый день. Научили дышать 4-7-8. Работает!","Думал что один такой. Оказалось нет. Уже помогло.","Не спала неделю. Помощник дал технику — уснула в ту же ночь.","Хотела сдаться. Один разговор здесь изменил всё.","Резала себя. Здесь дали альтернативу — лёд. Уже 2 месяца чистая."];
+const playlists={sad:"Billie Eilish, Lewis Capaldi, Lana Del Rey, Radiohead, Daughter",anx:"Marconi Union - Weightless, Enya, Ludovico Einaudi, Brian Eno",angry:"Linkin Park, Twenty One Pilots, NF, BMTH, Imagine Dragons",sleep:"Звуки дождя, Lo-fi beats, Ambient sleep, Звуки океана",energy:"The Score, Imagine Dragons - Believer, Eminem, Eye of the Tiger"};
 
-function rand(arr){return arr[Math.floor(Math.random()*arr.length)]}
+function go(id){haptic('light');P.forEach((p,i)=>document.querySelectorAll('.nb')[i].classList.toggle('on',p.id===id));render(id)}
 
-function go(id){
-  document.querySelectorAll('.nav-btn').forEach((b,i)=>b.classList.toggle('active',pages[i].id===id));
-  render(id);
-}
+function render(id){const el=document.getElementById('pages');switch(id){
+case'home':el.innerHTML=`<div class="pg on"><div class="c"><h3>👋 Привет!</h3><p>Здесь безопасно. Всё анонимно. Выбери что нужно.</p></div>
+<div class="g2">
+<div class="gb" onclick="go('chat')"><span class="ic">💬</span>Написать</div>
+<div class="gb" onclick="go('breathe')"><span class="ic">🫁</span>Подышать</div>
+<div class="gb" onclick="go('mood')"><span class="ic">😊</span>Настроение</div>
+<div class="gb" onclick="go('care')"><span class="ic">🧴</span>Забота</div>
+<div class="gb" onclick="go('games')"><span class="ic">🎮</span>Игры</div>
+<div class="gb" onclick="go('cope')"><span class="ic">🧰</span>Копинг</div>
+<div class="gb" onclick="go('diary')"><span class="ic">📔</span>Дневник</div>
+<div class="gb" onclick="go('music')"><span class="ic">🎵</span>Музыка</div>
+<div class="gb" onclick="go('facts')"><span class="ic">💡</span>Факты</div>
+<div class="gb" onclick="go('affirm')"><span class="ic">✨</span>Аффирмации</div>
+<div class="gb" onclick="go('sleep')"><span class="ic">😴</span>Сон</div>
+<div class="gb" onclick="go('kind')"><span class="ic">💛</span>Доброта</div>
+<div class="gb" onclick="go('stories')"><span class="ic">📖</span>Истории</div>
+<div class="gb" onclick="go('achieve')"><span class="ic">🏆</span>Прогресс</div>
+</div><button class="btn btn-s" onclick="go('sos')">🆘 SOS</button></div>`;break;
+case'chat':el.innerHTML=`<div class="pg on"><div class="c"><h3>💬 Написать помощнику</h3><p>Выбери тему → напиши → помощник ответит в боте.</p></div>
+<div class="g2">${['😰 Тревога','😔 Одиночество','👊 Буллинг','🏠 Семья','💔 Отношения','🌑 Депрессия','🩸 Самоповреждение','📚 Школа','🍽️ РПП','🌈 Идентичность','😴 Сон','🎮 Зависимость','🕊️ Горе','👨‍👩‍👧 Родители','❓ Другое','🆘 Кризис'].map(c=>`<div class="gb" onclick="pickT('${c}')">${c}</div>`).join('')}</div>
+<div id="cf" style="display:none"><textarea id="cm" placeholder="Напиши что беспокоит..."></textarea><button class="btn btn-p" onclick="sendM()">📨 Отправить</button><p style="font-size:10px;color:var(--muted);text-align:center;margin-top:4px">Откроется бот для ответа</p></div></div>`;break;
+case'breathe':el.innerHTML=`<div class="pg on"><div class="c"><h3>🫁 Дыхание</h3><p>Следи за шаром. Дыши вместе с ним.</p></div>
+<div class="g2"><div class="gb" onclick="br('478')"><span class="ic">🌙</span>4-7-8</div><div class="gb" onclick="br('box')"><span class="ic">⬜</span>Бокс</div><div class="gb" onclick="br('calm')"><span class="ic">🌊</span>Спокойствие</div><div class="gb" onclick="br('fast')"><span class="ic">⚡</span>Энергия</div></div>
+<div class="breathe-orb" id="orb">Выбери</div><p id="brT" style="text-align:center;font-size:12px;color:var(--muted);margin-top:10px"></p></div>`;break;
+case'mood':el.innerHTML=`<div class="pg on"><div class="c"><h3>😊 Как ты сейчас?</h3></div>
+<div class="mood-r"><div class="mood-i" onclick="sM(this,'😊')">😊</div><div class="mood-i" onclick="sM(this,'😌')">😌</div><div class="mood-i" onclick="sM(this,'😐')">😐</div><div class="mood-i" onclick="sM(this,'😔')">😔</div><div class="mood-i" onclick="sM(this,'😢')">😢</div></div>
+<div id="mr"></div><div class="c"><h3>📊 Неделя</h3><div id="mw" style="font-size:22px;text-align:center;letter-spacing:6px"></div></div></div>`;mw();break;
+case'care':rCare(el);break;
+case'games':el.innerHTML=`<div class="pg on"><div class="c"><h3>🎮 Мини-игры</h3><p>Нажми и смотри магию!</p></div>
+<div class="g2"><div class="gb" onclick="gCoin()"><span class="ic">🪙</span>Монетка</div><div class="gb" onclick="g8()"><span class="ic">🎱</span>Шар</div><div class="gb" onclick="gW()"><span class="ic">🎰</span>Колесо</div><div class="gb" onclick="gN()"><span class="ic">🔢</span>Число</div></div><div id="gR"></div></div>`;break;
+case'cope':el.innerHTML=`<div class="pg on"><div class="c"><h3>🧰 Копинг</h3><p>Когда плохо — попробуй одну технику.</p></div>
+<div class="g2">${cope.map((c,i)=>`<div class="gb" onclick="sC(${i})"><span class="ic">${c.e}</span>${c.t}</div>`).join('')}</div><div id="cD"></div></div>`;break;
+case'diary':rDiary(el);break;
+case'facts':el.innerHTML=`<div class="pg on"><div class="c"><h3>💡 Факт</h3><p class="qt">${rand(facts)}</p></div><button class="btn btn-o" onclick="go('facts')">🔄 Другой</button></div>`;break;
+case'affirm':el.innerHTML=`<div class="pg on"><div class="c"><h3>✨ Аффирмация</h3><p class="qt glow">${rand(affirm)}</p><p style="text-align:center;font-size:10px;color:var(--muted)">Повтори 3 раза вслух 💜</p></div><button class="btn btn-o" onclick="go('affirm')">🔄 Другая</button></div>`;break;
+case'music':el.innerHTML=`<div class="pg on"><div class="c"><h3>🎵 Плейлисты</h3><p>Выбери настроение:</p></div>
+<div class="g2"><div class="gb" onclick="pl('sad')"><span class="ic">😔</span>Грусть</div><div class="gb" onclick="pl('anx')"><span class="ic">😰</span>Тревога</div><div class="gb" onclick="pl('angry')"><span class="ic">😤</span>Злость</div><div class="gb" onclick="pl('sleep')"><span class="ic">😴</span>Сон</div><div class="gb" onclick="pl('energy')"><span class="ic">💪</span>Энергия</div></div><div id="plR"></div></div>`;break;
+case'sleep':el.innerHTML=`<div class="pg on"><div class="c"><h3>😴 Сон</h3><p class="qt">${rand(sleepT)}</p></div><button class="btn btn-o" onclick="go('sleep')">🔄 Ещё</button></div>`;break;
+case'kind':el.innerHTML=`<div class="pg on"><div class="c"><h3>💛 Доброта</h3><p class="qt">${rand(kindI)}</p><p style="text-align:center;font-size:10px;color:var(--muted)">Доброта лечит и тебя 💙</p></div><button class="btn btn-o" onclick="go('kind')">🔄 Идея</button></div>`;break;
+case'stories':el.innerHTML=`<div class="pg on"><div class="c"><h3>📖 История</h3><p class="qt">«${rand(stories)}»</p><p style="text-align:center;font-size:10px;color:var(--muted)">— Аноним</p></div><button class="btn btn-o" onclick="go('stories')">📖 Другая</button></div>`;break;
+case'achieve':rAch(el);break;
+case'sos':el.innerHTML=`<div class="pg on"><div class="c"><h3>🆘 Экстренная помощь</h3><p>Если очень плохо прямо сейчас.</p></div>
+<button class="btn btn-s" onclick="haptic('heavy');tg.openTelegramLink('https://t.me/teens_help_ru_bot?start=sos');tg.close()">🆘 МНЕ НУЖНА ПОМОЩЬ</button>
+<div class="c" style="margin-top:12px"><p>📞 <b>8-800-2000-122</b> — бесплатно 24/7<br>📞 <b>112</b> — экстренные<br><br>Ты не один(а) 💙</p></div>
+<button class="btn btn-o" onclick="go('breathe')">🫁 Подышать</button><button class="btn btn-o" onclick="go('cope')">🧰 Копинг</button></div>`;break;
+}}
 
-function render(id){
-  const el=document.getElementById('pages');
-  switch(id){
-
-
-case 'home': el.innerHTML=`<div class="page active">
-<div class="card"><h3>👋 Привет!</h3><p>Здесь безопасно. Выбери что нужно — всё через кнопки.</p></div>
-<div class="grid-2">
-<div class="grid-btn" onclick="go('chat')"><span class="icon">💬</span>Написать</div>
-<div class="grid-btn" onclick="go('breathe')"><span class="icon">🫁</span>Подышать</div>
-<div class="grid-btn" onclick="go('mood')"><span class="icon">😊</span>Настроение</div>
-<div class="grid-btn" onclick="go('care')"><span class="icon">🧴</span>Забота</div>
-<div class="grid-btn" onclick="go('games')"><span class="icon">🎮</span>Игры</div>
-<div class="grid-btn" onclick="go('coping')"><span class="icon">🧰</span>Копинг</div>
-<div class="grid-btn" onclick="go('diary')"><span class="icon">📔</span>Дневник</div>
-<div class="grid-btn" onclick="go('facts')"><span class="icon">💡</span>Факты</div>
-<div class="grid-btn" onclick="go('affirm')"><span class="icon">✨</span>Аффирмации</div>
-<div class="grid-btn" onclick="go('sleep')"><span class="icon">😴</span>Сон</div>
-<div class="grid-btn" onclick="go('kind')"><span class="icon">💛</span>Доброта</div>
-<div class="grid-btn" onclick="go('stories')"><span class="icon">📖</span>Истории</div>
-<div class="grid-btn" onclick="go('achieve')"><span class="icon">🏆</span>Бейджи</div>
-<div class="grid-btn" onclick="go('sos')"><span class="icon">🆘</span>SOS</div>
-</div></div>`;break;
-
-case 'chat': el.innerHTML=`<div class="page active">
-<div class="card"><h3>💬 Написать помощнику</h3><p>Выбери тему, напиши сообщение — помощник ответит в боте.</p></div>
-<div class="grid-2">
-${['😰 Тревога','😔 Одиночество','👊 Буллинг','🏠 Семья','💔 Отношения','🌑 Депрессия','🩸 Самоповреждение','📚 Школа','🍽️ РПП','🌈 Идентичность','😴 Сон','🎮 Зависимость','🕊️ Горе','👨‍👩‍👧 Родители','❓ Другое','🆘 Кризис'].map(c=>`<div class="grid-btn" onclick="pickTopic('${c}')">${c}</div>`).join('')}
-</div>
-<div id="chatForm" style="display:none">
-<textarea id="chatMsg" placeholder="Напиши что беспокоит..."></textarea>
-<button class="btn btn-primary" onclick="sendMsg()">📨 Отправить помощнику</button>
-<p style="font-size:10px;color:var(--muted);text-align:center;margin-top:6px">Откроется бот — вставь сообщение туда</p>
-</div>
-</div>`;break;
-
-case 'breathe': el.innerHTML=`<div class="page active">
-<div class="card"><h3>🫁 Дыхательные техники</h3><p>Выбери технику и следи за кругом.</p></div>
-<div class="grid-2">
-<div class="grid-btn" onclick="startBreath('478')"><span class="icon">🌙</span>4-7-8 Сон</div>
-<div class="grid-btn" onclick="startBreath('box')"><span class="icon">⬜</span>Бокс</div>
-<div class="grid-btn" onclick="startBreath('calm')"><span class="icon">🌊</span>Спокойствие</div>
-<div class="grid-btn" onclick="startBreath('energy')"><span class="icon">⚡</span>Энергия</div>
-</div>
-<div class="breathe-box" id="bCircle">Нажми выше</div>
-<p id="bInstr" style="text-align:center;font-size:11px;color:var(--muted);margin-top:8px"></p>
-</div>`;break;
-
-case 'mood': el.innerHTML=`<div class="page active">
-<div class="card"><h3>😊 Как ты сейчас?</h3><p>Нажми — сохранится в дневник.</p></div>
-<div class="mood-row">
-<div class="mood-item" onclick="saveMood('😊','Отлично')">😊</div>
-<div class="mood-item" onclick="saveMood('😌','Хорошо')">😌</div>
-<div class="mood-item" onclick="saveMood('😐','Нормально')">😐</div>
-<div class="mood-item" onclick="saveMood('😔','Плохо')">😔</div>
-<div class="mood-item" onclick="saveMood('😢','Ужасно')">😢</div>
-</div>
-<div id="moodResult"></div>
-<div class="card"><h3>📊 Неделя</h3><div id="moodWeek" style="font-size:20px;text-align:center;letter-spacing:4px"></div></div>
-</div>`;renderMoodWeek();break;
-
-case 'care':renderCare(el);break;
-case 'games':renderGames(el);break;
-case 'coping': el.innerHTML=`<div class="page active">
-<div class="card"><h3>🧰 Копинг-техники</h3><p>Когда плохо — попробуй одну.</p></div>
-<div class="grid-2">${copingTech.map((c,i)=>`<div class="grid-btn" onclick="showCope(${i})"><span class="icon">${c.e}</span>${c.t}</div>`).join('')}</div>
-<div id="copeDetail"></div></div>`;break;
-
-case 'diary':renderDiary(el);break;
-case 'facts': el.innerHTML=`<div class="page active"><div class="card"><h3>💡 Факт</h3><p class="quote-text">${rand(facts)}</p></div><button class="btn btn-outline" onclick="go('facts')">🔄 Другой</button></div>`;break;
-case 'affirm': el.innerHTML=`<div class="page active"><div class="card"><h3>✨ Аффирмация</h3><p class="quote-text">${rand(affirmations)}</p><p style="text-align:center;font-size:11px;color:var(--muted)">Повтори 3 раза 💜</p></div><button class="btn btn-outline" onclick="go('affirm')">🔄 Другая</button></div>`;break;
-case 'sleep': el.innerHTML=`<div class="page active"><div class="card"><h3>😴 Совет для сна</h3><p class="quote-text">${rand(sleepTips)}</p></div><button class="btn btn-outline" onclick="go('sleep')">🔄 Ещё</button></div>`;break;
-case 'kind': el.innerHTML=`<div class="page active"><div class="card"><h3>💛 Акт доброты</h3><p class="quote-text">${rand(kindness)}</p><p style="text-align:center;font-size:11px;color:var(--muted)">Доброта к другим лечит и тебя 💙</p></div><button class="btn btn-outline" onclick="go('kind')">🔄 Другая идея</button></div>`;break;
-case 'stories': el.innerHTML=`<div class="page active"><div class="card"><h3>📖 Анонимная история</h3><p class="quote-text">«${rand(storyList)}»</p><p style="text-align:center;font-size:11px;color:var(--muted)">— Аноним</p></div><button class="btn btn-outline" onclick="go('stories')">📖 Другая</button></div>`;break;
-case 'achieve':renderAchieve(el);break;
-case 'sos': el.innerHTML=`<div class="page active">
-<div class="card"><h3>🆘 Экстренная помощь</h3><p>Если тебе очень плохо прямо сейчас.</p></div>
-<button class="btn btn-sos" onclick="sendSOS()">🆘 МНЕ НУЖНА ПОМОЩЬ</button>
-<div class="card" style="margin-top:12px"><p>📞 <b>8-800-2000-122</b> — бесплатно, 24/7<br>📞 <b>112</b> — экстренные службы<br><br>Ты не один(а). Мы рядом. 💙</p></div>
-<button class="btn btn-outline" onclick="go('breathe')" style="margin-top:8px">🫁 Подышать</button>
-<button class="btn btn-outline" onclick="go('coping')">🧰 Копинг-техника</button>
-</div>`;break;
-  }
-}
-
-let selectedTopic='';
-function pickTopic(topic){
-  selectedTopic=topic;
-  document.getElementById('chatForm').style.display='block';
-  document.getElementById('chatMsg').placeholder=`Тема: ${topic}\nНапиши что беспокоит...`;
-  document.getElementById('chatMsg').focus();
-}
-function sendMsg(){
-  const text=document.getElementById('chatMsg').value.trim();
-  if(!text){alert('Напиши сообщение');return}
-  // Copy to clipboard and open bot
-  navigator.clipboard.writeText(text).catch(()=>{});
-  tg.openTelegramLink('https://t.me/teens_help_ru_bot?start=chat');
-  tg.close();
-}
-function sendSOS(){tg.openTelegramLink('https://t.me/teens_help_ru_bot?start=sos');tg.close()}
-
+// Chat
+let topic='';
+function pickT(t){topic=t;document.getElementById('cf').style.display='block';document.getElementById('cm').focus();haptic('light')}
+function sendM(){const t=document.getElementById('cm').value.trim();if(!t)return;navigator.clipboard.writeText(t).catch(()=>{});tg.openTelegramLink('https://t.me/teens_help_ru_bot?start=chat');tg.close()}
 // Breathing
-function startBreath(type){
-  const c=document.getElementById('bCircle');
-  const ins=document.getElementById('bInstr');
-  c.classList.add('active');
-  const info={478:'Вдох 4с → Держи 7с → Выдох 8с',box:'Вдох 4с → Держи 4с → Выдох 4с → Держи 4с',calm:'Вдох 4с → Выдох 6с',energy:'Быстрый вдох-выдох 30 раз'};
-  ins.textContent=info[type]||'';
-  let step=0;const labels=['Вдох...','Держи...','Выдох...'];
-  clearInterval(window._bInt);
-  window._bInt=setInterval(()=>{c.textContent=labels[step%3];step++},4000);
+let bInt;
+function br(type){
+  haptic('medium');clearInterval(bInt);
+  const o=document.getElementById('orb'),txt=document.getElementById('brT');
+  const cfg={478:{in:4,hold:7,out:8},box:{in:4,hold:4,out:4},calm:{in:4,hold:0,out:6},fast:{in:1,hold:0,out:1}};
+  const c=cfg[type];let phase='in';
+  function step(){
+    if(phase==='in'){o.className='breathe-orb in';o.textContent='Вдох...';txt.textContent=`${c.in} сек`;setTimeout(()=>{phase=c.hold?'hold':'out';step()},c.in*1000)}
+    else if(phase==='hold'){o.className='breathe-orb in';o.textContent='Держи...';txt.textContent=`${c.hold} сек`;setTimeout(()=>{phase='out';step()},c.hold*1000)}
+    else{o.className='breathe-orb out';o.textContent='Выдох...';txt.textContent=`${c.out} сек`;setTimeout(()=>{phase='in';step()},c.out*1000)}
+  }
+  step();
 }
-
 // Mood
-function saveMood(emoji,label){
-  const week=LS('moodWeek')||[];
-  week.push({emoji,date:new Date().toLocaleDateString()});
-  if(week.length>7)week.shift();
-  SS('moodWeek',week);
-  document.getElementById('moodResult').innerHTML=`<div class="result">${emoji}<br>${label}<br><span style="color:var(--muted);font-size:11px">Сохранено! 💙</span></div>`;
-  renderMoodWeek();
-}
-function renderMoodWeek(){
-  const el=document.getElementById('moodWeek');if(!el)return;
-  const week=LS('moodWeek')||[];
-  el.textContent=week.map(m=>m.emoji).join(' ')||'Нет данных';
-}
-
+function sM(el,e){haptic('medium');document.querySelectorAll('.mood-i').forEach(m=>m.classList.remove('sel'));el.classList.add('sel');
+  const w=LS('mw')||[];w.push({e,d:new Date().toLocaleDateString()});if(w.length>7)w.shift();SS('mw',w);
+  const msgs={'😊':'Супер! ✨','😌':'Хорошо! 💙','😐':'Ок 👍','😔':'Мы рядом 🤍','😢':'Обнимаем 💙'};
+  document.getElementById('mr').innerHTML=`<div class="gr"><div class="big bounce">${e}</div><div class="lbl">${msgs[e]}</div></div>`;mw()}
+function mw(){const el=document.getElementById('mw');if(!el)return;const w=LS('mw')||[];el.textContent=w.map(x=>x.e).join(' ')||'—'}
 // Self-care
-function renderCare(el){
-  const items=['💧 Вода','🍎 Еда','😴 Сон 7+','🚿 Душ','🌳 Улица','📵 Перерыв','🎵 Музыка','💬 Общение','📝 Записал','🤗 Приятное'];
-  let done=LS('careDone')||[];
-  const today=new Date().toDateString();
-  if(LS('careDate')!==today){done=[];SS('careDone',[]);SS('careDate',today)}
-  const pct=Math.round(done.length/items.length*100);
-  el.innerHTML=`<div class="page active"><div class="card"><h3>🧴 Забота о себе</h3>
-  <div class="progress"><div class="fill" style="width:${pct}%"></div></div>
-  <p style="font-size:11px;color:var(--muted)">${done.length}/10 выполнено${done.length===10?' 🎉 Супер!':''}</p>
-  ${items.map((item,i)=>`<div class="check-item${done.includes(i)?' done':''}" onclick="toggleCare(${i})"><div class="check-box"></div><span>${item}</span></div>`).join('')}
-  </div></div>`;
-}
-function toggleCare(i){
-  let done=LS('careDone')||[];
-  if(done.includes(i))done=done.filter(x=>x!==i);else done.push(i);
-  SS('careDone',done);SS('careDate',new Date().toDateString());
-  renderCare(document.getElementById('pages'));
-}
-
+function rCare(el){
+  const items=['💧 Вода','🍎 Еда','😴 Сон','🚿 Душ','🌳 Улица','📵 Перерыв','🎵 Музыка','💬 Общение','📝 Записал','🤗 Приятное'];
+  let dn=LS('cd')||[];const td=new Date().toDateString();if(LS('cdt')!==td){dn=[];SS('cd',[]);SS('cdt',td)}
+  const pct=Math.round(dn.length/items.length*100);
+  el.innerHTML=`<div class="pg on"><div class="c"><h3>🧴 Забота о себе</h3><div class="bar"><div class="f" style="width:${pct}%"></div></div><p style="font-size:11px;color:var(--muted)">${dn.length}/10${dn.length===10?' 🎉':''}${pct>=30?' — молодец!':''}</p>
+  ${items.map((it,i)=>`<div class="chk${dn.includes(i)?' dn':''}" onclick="tC(${i})"><div class="chk-b"></div><span>${it}</span></div>`).join('')}</div></div>`}
+function tC(i){haptic('light');let dn=LS('cd')||[];if(dn.includes(i))dn=dn.filter(x=>x!==i);else dn.push(i);SS('cd',dn);SS('cdt',new Date().toDateString());rCare(document.getElementById('pages'));if(dn.length===10){confetti();haptic('heavy')}}
 // Games
-function renderGames(el){
-  el.innerHTML=`<div class="page active"><div class="card"><h3>🎮 Мини-игры</h3><p>Нажми и смотри анимацию!</p></div>
-  <div class="grid-2">
-  <div class="grid-btn" onclick="gameCoin()"><span class="icon">🪙</span>Монетка</div>
-  <div class="grid-btn" onclick="game8ball()"><span class="icon">🎱</span>Шар судьбы</div>
-  <div class="grid-btn" onclick="gameMood()"><span class="icon">🎰</span>Колесо</div>
-  <div class="grid-btn" onclick="gameNum()"><span class="icon">🔢</span>Число дня</div>
-  </div><div id="gameResult"></div></div>`;
-}
-function gameCoin(){
-  const r=document.getElementById('gameResult');
-  const side=Math.random()>.5?'Орёл':'Решка';
-  r.innerHTML=`<div class="game-result"><div class="coin spin">🪙</div><div class="label">Крутится...</div></div>`;
-  setTimeout(()=>{r.innerHTML=`<div class="game-result"><div class="coin bounce">${side==='Орёл'?'👑':'🌿'}</div><div class="label">${side}!</div></div>`;},1000);
-}
-function game8ball(){
-  const a=["✅ Определённо да!","❌ Точно нет","🤔 Возможно...","✨ Однозначно!","🌙 Не сейчас","💫 В твоих руках","🎯 Да!","🔮 Туманно...","💜 Спроси позже","⭐ Звёзды говорят да"];
-  const r=document.getElementById('gameResult');
-  r.innerHTML=`<div class="game-result"><div class="ball shake">🎱</div><div class="label">Думаю...</div></div>`;
-  setTimeout(()=>{r.innerHTML=`<div class="game-result"><div class="ball bounce"><span style="font-size:10px">${rand(a)}</span></div><div class="label">Шар говорит:</div><div class="sub glow">${rand(a)}</div></div>`;},1200);
-}
-function gameMood(){
-  const m=["😊 Радость","💪 Сила","🦋 Лёгкость","🌟 Вдохновение","🤗 Тепло","🌊 Спокойствие","🎨 Творчество","🌈 Надежда","🔥 Энергия","💎 Уверенность"];
-  const r=document.getElementById('gameResult');
-  r.innerHTML=`<div class="game-result"><div class="wheel spinning"></div><div class="label">Крутится...</div></div>`;
-  setTimeout(()=>{const res=rand(m);r.innerHTML=`<div class="game-result"><div class="wheel bounce" style="font-size:28px">${res.split(' ')[0]}</div><div class="label slot-spin">${res}</div><div class="sub">Твоё настроение на сегодня!</div></div>`;},2000);
-}
-function gameNum(){
-  const n=Math.floor(Math.random()*100)+1;
-  const r=document.getElementById('gameResult');
-  r.innerHTML=`<div class="game-result"><div class="num-box shake">?</div><div class="label">Генерирую...</div></div>`;
-  setTimeout(()=>{
-    const msg=n>80?'🚀 Великие дела впереди!':n>60?'🌟 Удача на твоей стороне':n>40?'⚖️ Баланс и гармония':n>20?'💪 Время действовать':'🌱 Новое начало';
-    r.innerHTML=`<div class="game-result"><div class="num-box bounce">${n}</div><div class="label glow">${msg}</div></div>`;
-  },800);
-}
-
+function gCoin(){haptic('medium');const r=document.getElementById('gR');r.innerHTML=`<div class="gr"><div class="coin-3d spin">🪙</div><div class="lbl">...</div></div>`;setTimeout(()=>{const s=Math.random()>.5;r.innerHTML=`<div class="gr"><div class="coin-3d bounce">${s?'👑':'🌿'}</div><div class="lbl">${s?'Орёл!':'Решка!'}</div></div>`;haptic('light')},1000)}
+function g8(){haptic('medium');const r=document.getElementById('gR');const a=["✅ Да!","❌ Нет","🤔 Возможно","✨ Точно!","🌙 Не сейчас","💫 В твоих руках","🎯 Да!","🔮 Туманно...","💜 Позже","⭐ Звёзды за"];r.innerHTML=`<div class="gr"><div class="ball-3d shake">🎱</div><div class="lbl">Думаю...</div></div>`;setTimeout(()=>{r.innerHTML=`<div class="gr"><div class="ball-3d bounce"><span style="font-size:9px">${rand(a)}</span></div><div class="lbl glow">${rand(a)}</div></div>`;haptic('light')},1200)}
+function gW(){haptic('medium');const r=document.getElementById('gR');const m=["😊 Радость","💪 Сила","🦋 Лёгкость","🌟 Вдохновение","🤗 Тепло","🌊 Покой","🎨 Творчество","🌈 Надежда","🔥 Энергия","💎 Уверенность"];r.innerHTML=`<div class="gr"><div class="wheel go"></div><div class="lbl">Крутится...</div></div>`;setTimeout(()=>{const res=rand(m);r.innerHTML=`<div class="gr"><div class="big bounce">${res.split(' ')[0]}</div><div class="lbl">${res}</div><div class="sub">Твоё на сегодня!</div></div>`;haptic('heavy');confetti()},2500)}
+function gN(){haptic('light');const r=document.getElementById('gR');r.innerHTML=`<div class="gr"><div class="num-3d shake">?</div></div>`;setTimeout(()=>{const n=Math.floor(Math.random()*100)+1;const msg=n>80?'🚀 Великое впереди':n>60?'🌟 Удача':n>40?'⚖️ Баланс':n>20?'💪 Действуй':'🌱 Начало';r.innerHTML=`<div class="gr"><div class="num-3d bounce">${n}</div><div class="lbl glow">${msg}</div></div>`;haptic('light')},800)}
 // Coping
-function showCope(i){const c=copingTech[i];document.getElementById('copeDetail').innerHTML=`<div class="card"><h3>${c.e} ${c.t}</h3><p>${c.d}</p></div>`}
-
+function sC(i){haptic('light');document.getElementById('cD').innerHTML=`<div class="c"><h3>${cope[i].e} ${cope[i].t}</h3><p>${cope[i].d}</p></div>`}
 // Diary
-function renderDiary(el){
-  const entries=LS('diary')||[];
-  el.innerHTML=`<div class="page active"><div class="card"><h3>📔 Дневник</h3><p>Запиши как ты себя чувствуешь.</p></div>
-  <textarea id="diaryInput" placeholder="Что на душе..."></textarea>
-  <button class="btn btn-primary" onclick="saveDiary()">📝 Сохранить</button>
-  <div class="card"><h3>Записи</h3>${entries.length?entries.slice(-5).reverse().map(e=>`<p style="border-bottom:1px solid #1e1e35;padding:8px 0;font-size:12px">📅 ${e.date}<br>${e.text}</p>`).join(''):'<p>Пока пусто.</p>'}</div></div>`;
-}
-function saveDiary(){
-  const text=document.getElementById('diaryInput').value.trim();if(!text)return;
-  const entries=LS('diary')||[];
-  entries.push({date:new Date().toLocaleDateString(),text});
-  SS('diary',entries.slice(-30));
-  renderDiary(document.getElementById('pages'));
-}
-
+function rDiary(el){const e=LS('di')||[];el.innerHTML=`<div class="pg on"><div class="c"><h3>📔 Дневник</h3></div><textarea id="dI" placeholder="Что на душе..."></textarea><button class="btn btn-p" onclick="sD()">📝 Сохранить</button><div class="c">${e.length?e.slice(-5).reverse().map(x=>`<p style="border-bottom:1px solid #1f1f3a;padding:8px 0;font-size:11px">📅 ${x.d}<br>${x.t}</p>`).join(''):'<p style="color:var(--muted);font-size:12px">Пока пусто</p>'}</div></div>`}
+function sD(){const t=document.getElementById('dI').value.trim();if(!t)return;haptic('light');const e=LS('di')||[];e.push({d:new Date().toLocaleDateString(),t});SS('di',e.slice(-30));rDiary(document.getElementById('pages'))}
+// Music
+function pl(m){haptic('light');document.getElementById('plR').innerHTML=`<div class="c"><h3>🎵</h3><p>${playlists[m]}</p><p style="margin-top:8px;font-size:10px;color:var(--muted)">Найди в Spotify/YouTube</p></div>`}
 // Achievements
-function renderAchieve(el){
-  const all=[{id:'mood',l:'😊 Отметил настроение'},{id:'care3',l:'🧴 3 пункта заботы'},{id:'breath',l:'🫁 Подышал'},{id:'diary',l:'📔 Запись в дневнике'},{id:'game',l:'🎮 Сыграл в игру'},{id:'fact',l:'💡 Прочитал факт'},{id:'kind',l:'💛 Акт доброты'},{id:'story',l:'📖 Прочитал историю'},{id:'affirm',l:'✨ Аффирмация'},{id:'week',l:'🔥 7 дней подряд'}];
-  const got=LS('badges')||[];
-  const pct=Math.round(got.length/all.length*100);
-  el.innerHTML=`<div class="page active"><div class="card"><h3>🏆 Достижения</h3>
-  <div class="progress"><div class="fill" style="width:${pct}%"></div></div>
-  <p style="font-size:11px;color:var(--muted)">${got.length}/${all.length}</p>
-  ${all.map(a=>`<div style="padding:6px 0;font-size:12px">${got.includes(a.id)?'✅':'⬜'} ${a.l}</div>`).join('')}
-  </div></div>`;
-}
-
+function rAch(el){const all=[{id:'mood',l:'😊 Настроение'},{id:'care',l:'🧴 Забота'},{id:'breath',l:'🫁 Дыхание'},{id:'diary',l:'📔 Дневник'},{id:'game',l:'🎮 Игра'},{id:'fact',l:'💡 Факт'},{id:'kind',l:'💛 Доброта'},{id:'story',l:'📖 История'},{id:'affirm',l:'✨ Аффирмация'},{id:'week',l:'🔥 7 дней'}];const got=LS('bg')||[];const pct=Math.round(got.length/all.length*100);
+el.innerHTML=`<div class="pg on"><div class="c"><h3>🏆 Прогресс</h3><div class="bar"><div class="f" style="width:${pct}%"></div></div><p style="font-size:11px;color:var(--muted)">${got.length}/${all.length} бейджей</p>
+${all.map(a=>`<div style="padding:7px 0;font-size:12px">${got.includes(a.id)?'✅':'⬜'} ${a.l}</div>`).join('')}</div></div>`}
+// Swipe
+let sx=0;document.addEventListener('touchstart',e=>{sx=e.touches[0].clientX});
+document.addEventListener('touchend',e=>{const d=e.changedTouches[0].clientX-sx;if(Math.abs(d)<80)return;const cur=P.findIndex(p=>document.querySelectorAll('.nb')[P.indexOf(p)]?.classList.contains('on'));if(d>0&&cur>0)go(P[cur-1].id);else if(d<0&&cur<P.length-1)go(P[cur+1].id)});
 // Init
 go('home');
 </script>

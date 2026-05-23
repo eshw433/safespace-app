@@ -48,6 +48,15 @@ body{font-family:-apple-system,system-ui,sans-serif;background:var(--bg);color:v
 .chk-b{width:22px;height:22px;border-radius:7px;border:2px solid var(--muted);flex-shrink:0;transition:.2s;display:flex;align-items:center;justify-content:center}
 .chk.dn .chk-b{background:var(--green);border-color:var(--green);transform:scale(1.1)}
 .chk.dn .chk-b::after{content:'✓';color:#fff;font-size:12px}
+body.light{--bg:#f8fafc;--card:#ffffff;--card2:#f1f5f9;--text:#1e293b;--muted:#64748b}
+body.light .head{background:linear-gradient(160deg,#e0e7ff,#c7d2fe,#ddd6fe)}
+body.light .head h1{color:#1e293b}
+body.light .nav{background:#fff;border-color:#e2e8f0}
+body.light .nb{color:#64748b}
+body.light .c{border-color:#e2e8f0}
+body.light .c::after{background:linear-gradient(90deg,#8b5cf6,#ec4899,#3b82f6)}
+body.light .gb{background:#f1f5f9;border-color:#e2e8f0}
+body.light textarea{background:#f1f5f9;border-color:#e2e8f0;color:#1e293b}
 .bar{height:8px;background:#1f1f3a;border-radius:4px;margin:10px 0;overflow:hidden}
 .bar .f{height:100%;background:linear-gradient(90deg,var(--accent2),var(--green));border-radius:4px;transition:width .5s ease}
 .qt{font-size:16px;line-height:1.8;text-align:center;padding:20px 10px;font-style:italic;color:var(--text)}
@@ -92,6 +101,7 @@ const P=[
 {id:'cope',i:'🧰',l:'Копинг'},{id:'diary',i:'📔',l:'Дневник'},{id:'facts',i:'💡',l:'Факты'},
 {id:'affirm',i:'✨',l:'Сила'},{id:'music',i:'🎵',l:'Музыка'},{id:'sleep',i:'😴',l:'Сон'},
 {id:'kind',i:'💛',l:'Доброта'},{id:'stories',i:'📖',l:'Истории'},{id:'achieve',i:'🏆',l:'Прогресс'},
+{id:'avatar',i:'🎭',l:'Аватар'},{id:'wall',i:'📝',l:'Стена'},{id:'hugs',i:'🤗',l:'Обнимашки'},
 {id:'sos',i:'🆘',l:'SOS'}];
 document.getElementById('nav').innerHTML=P.map((p,i)=>`<button class="nb${i?'':' on'}" onclick="go('${p.id}')">${p.i}</button>`).join('');
 const LS=k=>JSON.parse(localStorage.getItem(k)||'null');
@@ -128,7 +138,10 @@ case'home':el.innerHTML=`<div class="pg on"><div class="c"><h3>👋 Привет
 <div class="gb" onclick="go('kind')"><span class="ic">💛</span>Доброта</div>
 <div class="gb" onclick="go('stories')"><span class="ic">📖</span>Истории</div>
 <div class="gb" onclick="go('achieve')"><span class="ic">🏆</span>Прогресс</div>
-</div><button class="btn btn-s" onclick="go('sos')">🆘 SOS</button></div>`;break;
+<div class="gb" onclick="go('avatar')"><span class="ic">🎭</span>Аватар</div>
+<div class="gb" onclick="go('wall')"><span class="ic">📝</span>Стена</div>
+<div class="gb" onclick="go('hugs')"><span class="ic">🤗</span>Обнимашки</div>
+</div><div class="g2"><button class="btn btn-o" onclick="toggleTheme()">🌓 Тема</button><button class="btn btn-s" onclick="go('sos')">🆘 SOS</button></div></div>`;break;
 case'chat':el.innerHTML=`<div class="pg on"><div class="c"><h3>💬 Написать помощнику</h3><p>Выбери тему → напиши → помощник ответит в боте.</p></div>
 <div class="g2">${['😰 Тревога','😔 Одиночество','👊 Буллинг','🏠 Семья','💔 Отношения','🌑 Депрессия','🩸 Самоповреждение','📚 Школа','🍽️ РПП','🌈 Идентичность','😴 Сон','🎮 Зависимость','🕊️ Горе','👨‍👩‍👧 Родители','❓ Другое','🆘 Кризис'].map(c=>`<div class="gb" onclick="pickT('${c}')">${c}</div>`).join('')}</div>
 <div id="cf" style="display:none"><textarea id="cm" placeholder="Напиши что беспокоит..."></textarea><button class="btn btn-p" onclick="sendM()">📨 Отправить</button><p style="font-size:10px;color:var(--muted);text-align:center;margin-top:4px">Откроется бот для ответа</p></div></div>`;break;
@@ -152,6 +165,9 @@ case'sleep':el.innerHTML=`<div class="pg on"><div class="c"><h3>😴 Сон</h3>
 case'kind':el.innerHTML=`<div class="pg on"><div class="c"><h3>💛 Доброта</h3><p class="qt">${rand(kindI)}</p><p style="text-align:center;font-size:10px;color:var(--muted)">Доброта лечит и тебя 💙</p></div><button class="btn btn-o" onclick="go('kind')">🔄 Идея</button></div>`;break;
 case'stories':el.innerHTML=`<div class="pg on"><div class="c"><h3>📖 История</h3><p class="qt">«${rand(stories)}»</p><p style="text-align:center;font-size:10px;color:var(--muted)">— Аноним</p></div><button class="btn btn-o" onclick="go('stories')">📖 Другая</button></div>`;break;
 case'achieve':rAch(el);break;
+case'avatar':rAvatar(el);break;
+case'wall':rWall(el);break;
+case'hugs':rHugs(el);break;
 case'sos':el.innerHTML=`<div class="pg on"><div class="c"><h3>🆘 Экстренная помощь</h3><p>Если очень плохо прямо сейчас.</p></div>
 <button class="btn btn-s" onclick="haptic('heavy');tg.openTelegramLink('https://t.me/teens_help_ru_bot?start=sos');tg.close()">🆘 МНЕ НУЖНА ПОМОЩЬ</button>
 <div class="c" style="margin-top:12px"><p>📞 <b>8-800-2000-122</b> — бесплатно 24/7<br>📞 <b>112</b> — экстренные<br><br>Ты не один(а) 💙</p></div>
@@ -203,9 +219,81 @@ function sD(){const t=document.getElementById('dI').value.trim();if(!t)return;ha
 // Music
 function pl(m){haptic('light');document.getElementById('plR').innerHTML=`<div class="c"><h3>🎵</h3><p>${playlists[m]}</p><p style="margin-top:8px;font-size:10px;color:var(--muted)">Найди в Spotify/YouTube</p></div>`}
 // Achievements
-function rAch(el){const all=[{id:'mood',l:'😊 Настроение'},{id:'care',l:'🧴 Забота'},{id:'breath',l:'🫁 Дыхание'},{id:'diary',l:'📔 Дневник'},{id:'game',l:'🎮 Игра'},{id:'fact',l:'💡 Факт'},{id:'kind',l:'💛 Доброта'},{id:'story',l:'📖 История'},{id:'affirm',l:'✨ Аффирмация'},{id:'week',l:'🔥 7 дней'}];const got=LS('bg')||[];const pct=Math.round(got.length/all.length*100);
-el.innerHTML=`<div class="pg on"><div class="c"><h3>🏆 Прогресс</h3><div class="bar"><div class="f" style="width:${pct}%"></div></div><p style="font-size:11px;color:var(--muted)">${got.length}/${all.length} бейджей</p>
-${all.map(a=>`<div style="padding:7px 0;font-size:12px">${got.includes(a.id)?'✅':'⬜'} ${a.l}</div>`).join('')}</div></div>`}
+function rAch(el){const all=[{id:'mood',l:'😊 Настроение',e:'😊'},{id:'care',l:'🧴 Забота',e:'🧴'},{id:'breath',l:'🫁 Дыхание',e:'🫁'},{id:'diary',l:'📔 Дневник',e:'📔'},{id:'game',l:'🎮 Игра',e:'🎮'},{id:'fact',l:'💡 Факт',e:'💡'},{id:'kind',l:'💛 Доброта',e:'💛'},{id:'story',l:'📖 История',e:'📖'},{id:'affirm',l:'✨ Аффирмация',e:'✨'},{id:'week',l:'🔥 7 дней',e:'🔥'},{id:'hug',l:'🤗 Обнимашка',e:'🤗'},{id:'wall',l:'📝 Стена',e:'📝'},{id:'avatar',l:'🎭 Аватар',e:'🎭'}];const got=LS('bg')||[];const pct=Math.round(got.length/all.length*100);
+  const lvl=pct>=90?'🏆 Легенда':pct>=70?'⭐ Мастер':pct>=50?'💪 Опытный':pct>=30?'🌱 Растущий':'🐣 Новичок';
+  const streak=LS('mw')?.length||0;
+el.innerHTML=`<div class="pg on"><div class="c"><h3>🏆 Дашборд</h3>
+  <div style="text-align:center;padding:10px"><div style="font-size:40px" class="float">${pct>=50?'⭐':'🌱'}</div><div style="font-size:16px;font-weight:bold;margin:8px 0">${lvl}</div><div style="font-size:11px;color:var(--muted)">Уровень ${Math.floor(pct/10)+1}/10</div></div>
+  <div class="bar"><div class="f" style="width:${pct}%"></div></div><p style="font-size:11px;color:var(--muted)">${got.length}/${all.length} бейджей | 🔥 Стрик: ${streak} дней</p></div>
+  <div class="c"><h3>🎖️ Бейджи</h3><div class="g3">${all.map(a=>`<div class="gb" style="${got.includes(a.id)?'border-color:var(--green);background:#4ade8010':'opacity:0.5'}" onclick="${got.includes(a.id)?`showReward('${a.e}','${a.l}')`:''}">${got.includes(a.id)?'✅':'🔒'} ${a.l}</div>`).join('')}</div></div>
+  <div class="c"><h3>📊 Статистика</h3>
+  <p style="font-size:12px">🤗 Обнимашек: ${LS('hugs_sent')||0} | 📝 Постов: ${(LS('wall')||[]).length} | 📔 Записей: ${(LS('di')||[]).length}</p></div></div>`}
+// Theme toggle
+function toggleTheme(){
+  const b=document.body;
+  if(b.classList.contains('light')){b.classList.remove('light');SS('theme','dark')}
+  else{b.classList.add('light');SS('theme','light')}
+  haptic('light');
+}
+if(LS('theme')==='light')document.body.classList.add('light');
+
+// Avatar customization
+const avatarParts={face:['😊','😎','🥰','😇','🤓','🧐','😏','🥺','😤','🤠'],hair:['👱','👩‍🦰','👨‍🦱','👩‍🦳','🧑‍🦲','💇','💇‍♂️','🎀','👑','🎩'],acc:['🎧','🕶️','💍','📿','🧣','🎒','🎭','🦋','⭐','💎'],bg:['🌅','🌌','🌈','🌊','🌸','🔥','❄️','🌙','☀️','🍀']};
+function rAvatar(el){
+  const av=LS('avatar')||{face:'😊',hair:'👱',acc:'🎧',bg:'🌅'};
+  el.innerHTML=`<div class="pg on"><div class="c"><h3>🎭 Мой аватар</h3>
+  <div style="text-align:center;padding:20px;font-size:60px;background:var(--card2);border-radius:20px;margin:10px 0;position:relative">
+    <div style="position:absolute;top:5px;left:5px;font-size:30px">${av.bg}</div>
+    <span class="float" style="display:inline-block">${av.face}</span>
+    <div style="position:absolute;top:5px;right:5px;font-size:20px">${av.hair}</div>
+    <div style="position:absolute;bottom:5px;right:5px;font-size:20px">${av.acc}</div>
+  </div></div>
+  <div class="c"><h3>Лицо</h3><div class="g3">${avatarParts.face.map(f=>`<div class="gb${av.face===f?' on':''}" onclick="setAv('face','${f}')">${f}</div>`).join('')}</div></div>
+  <div class="c"><h3>Волосы</h3><div class="g3">${avatarParts.hair.map(f=>`<div class="gb${av.hair===f?' on':''}" onclick="setAv('hair','${f}')">${f}</div>`).join('')}</div></div>
+  <div class="c"><h3>Аксессуар</h3><div class="g3">${avatarParts.acc.map(f=>`<div class="gb${av.acc===f?' on':''}" onclick="setAv('acc','${f}')">${f}</div>`).join('')}</div></div>
+  <div class="c"><h3>Фон</h3><div class="g3">${avatarParts.bg.map(f=>`<div class="gb${av.bg===f?' on':''}" onclick="setAv('bg','${f}')">${f}</div>`).join('')}</div></div></div>`;
+}
+function setAv(k,v){haptic('light');const av=LS('avatar')||{face:'😊',hair:'👱',acc:'🎧',bg:'🌅'};av[k]=v;SS('avatar',av);rAvatar(document.getElementById('pages'))}
+
+// Anonymous wall
+function rWall(el){
+  const posts=LS('wall')||[];
+  el.innerHTML=`<div class="pg on"><div class="c"><h3>📝 Анонимная стена</h3><p>Поделись мыслью. Всё анонимно.</p></div>
+  <textarea id="wallIn" placeholder="Что хочешь сказать миру..."></textarea>
+  <button class="btn btn-p" onclick="postWall()">📝 Опубликовать</button>
+  <div id="wallPosts">${posts.slice(-20).reverse().map(p=>`<div class="c" style="margin-top:8px"><p style="font-size:12px">${p.t}</p><div style="display:flex;justify-content:space-between;margin-top:8px"><span style="font-size:10px;color:var(--muted)">${p.d}</span><span style="font-size:14px;cursor:pointer" onclick="likePost(this)">💙 ${p.likes||0}</span></div></div>`).join('')}</div></div>`;
+}
+function postWall(){const t=document.getElementById('wallIn').value.trim();if(!t)return;haptic('medium');const posts=LS('wall')||[];posts.push({t,d:new Date().toLocaleDateString(),likes:0});SS('wall',posts.slice(-50));rWall(document.getElementById('pages'));confetti()}
+function likePost(el){haptic('light');const n=parseInt(el.textContent.replace('💙 ',''))+1;el.textContent='💙 '+n;el.style.transform='scale(1.3)';setTimeout(()=>el.style.transform='',300)}
+
+// Compliment board
+const compliments=["Ты классный(ая) 💙","У тебя красивая улыбка ✨","Ты делаешь мир лучше 🌍","Ты сильнее чем думаешь 💪","Рядом с тобой тепло 🤗","Ты вдохновляешь 🌟","Твоя доброта заразительна 💛","Ты уникален(а) 💎","С тобой легко 🦋","Ты заслуживаешь счастья 🌈","Ты умница 🧠","Ты храбрый(ая) 🦁","Ты талантлив(а) 🎨","Мир ярче с тобой ☀️","Ты — подарок 🎁"];
+
+// Hugs
+function rHugs(el){
+  const sent=LS('hugs_sent')||0;const got=LS('hugs_got')||0;
+  el.innerHTML=`<div class="pg on"><div class="c"><h3>🤗 Обнимашки</h3><p>Отправь анонимное объятие. Кто-то получит тепло.</p></div>
+  <div class="gr"><div class="big float">🤗</div><div class="lbl">Отправлено: ${sent} | Получено: ${got}</div></div>
+  <button class="btn btn-p" onclick="sendHug()">🤗 Отправить обнимашку</button>
+  <button class="btn btn-o" onclick="getHug()">💌 Получить обнимашку</button>
+  <div id="hugR"></div>
+  <div class="c" style="margin-top:12px"><h3>💌 Доска комплиментов</h3><p style="font-size:11px;color:var(--muted)">Нажми чтобы получить</p>
+  <button class="btn btn-g" onclick="getCompliment()">✨ Комплимент</button><div id="compR"></div></div></div>`;
+}
+function sendHug(){haptic('heavy');const s=(LS('hugs_sent')||0)+1;SS('hugs_sent',s);
+  document.getElementById('hugR').innerHTML=`<div class="gr"><div class="big bounce">💝</div><div class="lbl">Обнимашка отправлена! +1 карма</div></div>`;
+  confetti();setTimeout(()=>rHugs(document.getElementById('pages')),2000)}
+function getHug(){haptic('medium');const g=(LS('hugs_got')||0)+1;SS('hugs_got',g);
+  const msgs=["Кто-то обнял тебя 🤗","Тебя любят 💙","Ты не один(а) 💝","Тёплые объятия для тебя 🫂","Кто-то думает о тебе 💭"];
+  document.getElementById('hugR').innerHTML=`<div class="gr"><div class="big bounce">🫂</div><div class="lbl">${rand(msgs)}</div></div>`}
+function getCompliment(){haptic('light');document.getElementById('compR').innerHTML=`<div class="c" style="margin-top:8px;text-align:center"><p class="qt glow">${rand(compliments)}</p></div>`}
+
+// Animated sticker rewards
+function showReward(emoji,text){
+  const d=document.createElement('div');d.style.cssText='position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:1000;text-align:center;pointer-events:none';
+  d.innerHTML=`<div style="font-size:80px" class="bounce">${emoji}</div><div style="font-size:16px;color:var(--accent);font-weight:bold;margin-top:8px" class="glow">${text}</div>`;
+  document.body.appendChild(d);haptic('heavy');confetti();setTimeout(()=>d.remove(),3000)}
+
 // Swipe
 let sx=0;document.addEventListener('touchstart',e=>{sx=e.touches[0].clientX});
 document.addEventListener('touchend',e=>{const d=e.changedTouches[0].clientX-sx;if(Math.abs(d)<80)return;const cur=P.findIndex(p=>document.querySelectorAll('.nb')[P.indexOf(p)]?.classList.contains('on'));if(d>0&&cur>0)go(P[cur-1].id);else if(d<0&&cur<P.length-1)go(P[cur+1].id)});
